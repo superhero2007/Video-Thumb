@@ -1,0 +1,145 @@
+import groovy.json.JsonSlurper
+
+apply plugin: 'distribution'
+
+def appVersion = null
+def releaseId = null
+
+distributions {
+  ci {
+    baseName = "node-hashplay-contentapi"
+    contents {
+      exclude '**/windev/**'
+      from 'src/'
+      into '/'
+    }
+  }
+}
+
+task copyDataDemo(type: Copy) {
+  destinationDir = new File("${projectDir}")
+  from ("data-democontent") {
+    into 'src/data/'
+  }
+}
+
+clean.doFirst {
+  delete 'src/data/'
+  delete 'data-democontent'
+}
+
+task cleanData(type: Delete) << {
+  delete 'src/data/'
+}
+
+task cloneDataDemo(type: Exec) {
+  commandLine 'git', 'clone', 'git@github.com:HashplayInc/data-democontent.git'
+}
+
+task validateVersionInfo << { 
+  if (!project.hasProperty("jenkinsBuildNumber")) {
+    throw new GradleException("No jenkins build number set on build.  Make sure -PjenkinsBuildNumber is set on the build.")
+  }  
+  if (null == appVersion) {
+    throw new GradleException("Unable to obtain version from app.js.  Ensure that \"var version = 'X.Y.Z'\" is present.")
+  }
+}
+
+task setVersionInfo << {
+  version = "${appVersion}-${jenkinsBuildNumber}"
+}
+
+task getAppVersionFromSrc << {
+  def ver = null
+
+  new File("${projectDir}/src/server.js").eachLine { line ->
+    def match = line =~ /var version \= '(.*)'/
+    if (match) {
+      ver = match[0][1]
+    }
+  }
+  
+  appVersion = ver 
+}
+
+def getToken() { 
+  File tokenFile = new File("${System.properties['user.home']}/tokens/elx-chad.txt")
+    
+  tokenFile.eachLine { line ->
+    project.ext.set('token', line)
+    return line 
+  }             
+} 
+
+task createReleaseExec() << {
+  def stdout = new ByteArrayOutputStream()
+  def stderr = new ByteArrayOutputStream()
+  def result = exec {
+    commandLine 'curl',
+                '-X', 'POST',
+                '-H', "Content-Type:application/json",
+                '-H', "Accept:application/json",
+                '-H', "Authorization: token ${getToken()}",
+                '--data',
+                "{\"tag_name\": \"" + version + "\", \"target_committish\": \"master\", \"name\": \"" + version + "\", \"body\": \"automated release deployed by jenkins.\", \"draft\": false, \"prerelease\": false}",
+                'https://api.github.com/repos/HashplayInc/node-contentapi/releases'
+
+    standardOutput = stdout
+    errorOutput = stderr
+  }
+
+  ext.stdout = {
+    return stdout.toString()
+  }
+  ext.stderr = {
+    return stderr.toString()
+  }
+  ext.result = {
+    return result.toString()
+  }
+  
+  def jsonResp = (new JsonSlurper()).parseText(stdout.toString())
+  if (jsonResp['message'] != null) {
+    throw new GradleException("createReleaseExec() - Error receieved from github api - JSON Response(${jsonResp})")
+  } else {
+    releaseId = (new JsonSlurper()).parseText(stdout.toString())['id']
+  }
+}
+
+task uploadReleaseExec() << {
+  def stdout = new ByteArrayOutputStream()
+  def stderr = new ByteArrayOutputStream()
+  def result = exec {
+    commandLine 'curl', '-X', 'POST', 
+           '-H', "Accept:application/json",
+           '-H', "Content-Type: application/zip",
+           '-H', "Authorization: token ${getToken()}",
+           '--data-binary', "@${buildDir}/distributions/node-hashplay-contentapi-${version}.zip",
+           "https://uploads.github.com/repos/HashplayInc/node-contentapi/releases/${releaseId}/assets?name=node-hashplay-contentapi-" + version + ".zip"
+    
+    standardOutput = stdout
+    errorOutput = stderr
+  }
+  ext.stdout = {
+    return stdout.toString()
+  }
+  ext.stderr = {
+    return stderr.toString()
+  }
+  ext.result = {
+    return result.toString()
+  }
+  def jsonResp = (new JsonSlurper()).parseText(stdout.toString())
+  if (jsonResp['message'] != null) {  
+    throw new GradleException("uploadReleaseExec() - Error received from github api - JSON Respons(${jsonResp})")
+  } 
+}
+
+tasks.cloneDataDemo.dependsOn clean
+tasks.copyDataDemo.dependsOn cloneDataDemo
+tasks.getAppVersionFromSrc.dependsOn copyDataDemo
+tasks.validateVersionInfo.dependsOn getAppVersionFromSrc
+tasks.setVersionInfo.dependsOn validateVersionInfo
+tasks.ciDistZip.dependsOn setVersionInfo
+
+tasks.uploadReleaseExec.dependsOn createReleaseExec

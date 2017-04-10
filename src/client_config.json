@@ -1,0 +1,434 @@
+{
+  "session": {
+    "s_id": null,
+    "connect_urls": [
+      "capi-dev.hashplay.net"
+    ]
+  },
+  "config": {
+    "player": {
+      "display_errors": false,
+      "loading_texture": "http://hashplay-183d.kxcdn.com/misc/loading_vrm.jpg",
+      "loading_audio": "http://hashplay-183d.kxcdn.com/misc/loading.mp3",
+      "loading_texture_last_update": "2016-01-22T08:00:00.000Z",
+      "location_texture": "http://hashplay-183d.kxcdn.com/misc/DS_360.jpg",
+      "location_texture_last_update": "2016-04-14T08:08:37.000Z",
+      "start_location": "CENTRAL",
+      "tutorial": "http://hashplay-183d.kxcdn.com/misc/overlay.png",
+      "tutorial_last_update": "2016-01-22T08:00:00.000Z",
+      "titles_prefix": "http://hashplay-183d.kxcdn.com/titles/",
+      "screenshots_prefix": "http://hashplay-183d.kxcdn.com/bc/",
+      "live_prefix": "http://wpc.1EA25.psicdn.net/hls-live/201EA25/live1/demo/",
+      "live_suffix": ".m3u8",
+      "video_ad_server_url": "http://h2446907.stratoserver.net/r/www/delivery/fc.php?script=bannerTypeHtml:vastInlineBannerTypeHtml:vastInlineHtml&format=vast&nz=1&zones=pre-roll%3D1",
+      "recorded_prefix": "http://wpc.1ea25.psicdn.net/001EA25/games/",
+      "recorded_suffix": "/playlist.m3u",
+      "image_ad_server_large": "http://h2446907.stratoserver.net/r/www/delivery/avw.php?zoneid=2&n=fae8443",
+      "image_ad_server_medium": "http://h2446907.stratoserver.net/r/www/delivery/avw.php?zoneid=5&n=fae8443",
+      "vidad_cpm": 4,
+      "locations": [
+        {
+          "location_ID": "HASHPLAY",
+          "location_name": "Hashplay VR",
+          "owner": "Hashplay",
+          "format": "integration",
+          "age_rating": "12",
+          "location_texture": "http://hashplay-183d.kxcdn.com/misc/DS_360.jpg",
+          "location_texture_last_update": "2016-04-14T08:08:37.000Z",
+          "screen": [
+            3176,
+            1688,
+            4410,
+            1688,
+            4410,
+            2432,
+            3176,
+            2418
+          ],
+          "use_video_ad_server": true,
+          "use_image_ad_server": true,
+          "ad_interval_minutes": 15,
+          "hotspots": [
+            {
+              "name": "testlink to CH",
+              "position": [
+                5620,
+                6290,
+                1580,
+                2500
+              ],
+              "action": "LOC",
+              "location_ID": "CENTRAL"
+            },
+            {
+              "name": "testaudio link",
+              "position": [
+                1460,
+                1692,
+                2010,
+                2560
+              ],
+              "action": "AUDIO",
+              "action_url": "http://hashplay-183d.kxcdn.com/misc/atmo.mp3"
+            }
+          ]
+        },
+        {
+          "location_ID": "CENTRAL",
+          "location_name": "Central Hub",
+          "owner": "Hashplay",
+          "format": "360",
+          "location_texture": "http://hashplay-183d.kxcdn.com/misc/nerfcentralhub_360.jpg",
+          "location_texture_last_update": "2016-04-20T08:08:37.000Z",
+          "use_video_ad_server": false,
+          "use_image_ad_server": true,
+          "ad_interval_minutes": 0,
+          "hotspots": [
+            {
+              "name": "door_nerf",
+              "position": [
+                3620,
+                3900,
+                1940,
+                2460
+              ],
+              "action": "LOC",
+              "location_ID": "NERF"
+            },
+            {
+              "name": "door hashplay",
+              "position": [
+                2830,
+                3170,
+                1944,
+                2400
+              ],
+              "action": "LOC",
+              "location_ID": "HASHPLAY"
+            },
+            {
+              "name": "door vrsn",
+              "position": [
+                4400,
+                4680,
+                1950,
+                2380
+              ],
+              "action": "LOC",
+              "location_ID": "VRSN"
+            },
+            {
+              "name": "secretdoor wige",
+              "position": [
+                5074,
+                5524,
+                1950,
+                2380
+              ],
+              "action": "LOC",
+              "location_ID": "WIGE"
+            }
+          ],
+          "dynamic_textures": [
+            {
+              "name": "central billboard",
+              "position": [
+                3552,
+                1560,
+                4148,
+                1561,
+                4148,
+                1695,
+                3552,
+                1696
+              ],
+              "zone_ID": 5
+            },
+            {
+              "name": "billboard over center-1",
+              "position": [
+                2784,
+                1560,
+                3380,
+                1559,
+                3380,
+                1695,
+                2784,
+                1695
+              ],
+              "zone_ID": 6
+            },
+            {
+              "name": "billboard over center+1",
+              "position": [
+                4320,
+                1560,
+                4915,
+                1560,
+                4915,
+                1695,
+                4320,
+                1695
+              ],
+              "zone_ID": 7
+            }
+          ]
+        },
+        {
+          "location_ID": "VRSN",
+          "location_name": "Virtual Reality Sports Network",
+          "owner": "Hashplay",
+          "format": "360",
+          "location_texture": "http://hashplay-183d.kxcdn.com/misc/vrsn_360.jpg",
+          "location_texture_last_update": "2016-04-20T08:08:37.000Z",
+          "use_video_ad_server": true,
+          "use_image_ad_server": true,
+          "ad_interval_minutes": 15,
+          "screen": [
+            2808,
+            1470,
+            4866,
+            1466,
+            4870,
+            2500,
+            2808,
+            2502
+          ],
+          "hotspots": [
+            {
+              "name": "click to 3d vid",
+              "position": [
+                4945,
+                5330,
+                1719,
+                2454
+              ],
+              "action": "VIDEO3D",
+              "URL": "http://wpc.1EA25.psicdn.net/001EA25/games/ac_3d.mp4/playlist.m3u"
+            }
+          ],
+          "dynamic_textures": [
+            {
+              "name": "just a test",
+              "position": [
+                6420,
+                1482,
+                6943,
+                1513,
+                6943,
+                2481,
+                6420,
+                2491
+              ],
+              "zone_ID": 6
+            }
+          ]
+        },
+        {
+          "location_ID": "NERF",
+          "location_name": "VNerf-Tour Hasbro location",
+          "owner": "Hashplay",
+          "format": "360",
+          "location_texture": "http://hashplay-183d.kxcdn.com/misc/nerf_360.jpg",
+          "location_texture_last_update": "2016-05-18T08:08:37.000Z",
+          "use_video_ad_server": false,
+          "use_image_ad_server": false,
+          "ad_interval_minutes": 15,
+          "screen": [
+            1236,
+            1716,
+            2516,
+            1696,
+            2516,
+            2466,
+            1236,
+            2450
+          ],
+          "hotspots": [
+            {
+              "name": "bn_ nerf Video",
+              "position": [
+                1134,
+                1656,
+                2902,
+                3340
+              ],
+              "action": "VIDEO",
+              "URL": "http://wpc.1EA25.psicdn.net/001EA25/ads/NERF_nerftour2016.mp4/playlist.m3u"
+            },
+            {
+              "name": "bn_360 tourvid",
+              "position": [
+                2022,
+                2640,
+                2890,
+                3438
+              ],
+              "action": "VRM",
+              "URL": "http://wpc.1EA25.psicdn.net/001EA25/video/nerftour1_360.mp4/playlist.m3u"
+            },
+            {
+              "position": [
+                96,
+                615,
+                1960,
+                2395
+              ],
+              "name": "product1",
+              "action": "VIDEO",
+              "URL": "http://wpc.1EA25.psicdn.net/001EA25/ads/NERF_nerftour2016.mp4/playlist.m3u"
+            },
+            {
+              "name": "product2",
+              "position": [
+                2934,
+                3390,
+                1977,
+                2367
+              ],
+              "action": "VIDEO",
+              "URL": "http://wpc.1EA25.psicdn.net/001EA25/ads/NERF_nerftour2016.mp4/playlist.m3u"
+            },
+            {
+              "name": "product3",
+              "position": [
+                4815,
+                5430,
+                1930,
+                2430
+              ],
+              "action": "VIDEO",
+              "URL": "http://wpc.1EA25.psicdn.net/001EA25/ads/NERF_nerftour2016.mp4/playlist.m3u"
+            },
+            {
+              "name": "product4",
+              "position": [
+                6930,
+                7530,
+                1923,
+                2433
+              ],
+              "action": "VIDEO",
+              "URL": "http://wpc.1EA25.psicdn.net/001EA25/ads/NERF_nerftour2016.mp4/playlist.m3u"
+            },
+            {
+              "name": "ONC_Link",
+              "position": [
+                3372,
+                4014,
+                1770,
+                2750
+              ],
+              "action": "LOC",
+              "location_ID": "ONC"
+            }
+          ]
+        },
+        {
+          "location_ID": "ONC",
+          "location_name": "Nerf-Fanzone",
+          "owner": "Hashplay",
+          "format": "360",
+          "location_texture": "http://hashplay-183d.kxcdn.com/misc/onc_360.jpg",
+          "location_texture_last_update": "2016-05-18T08:08:37.000Z",
+          "use_video_ad_server": false,
+          "use_image_ad_server": false,
+          "ad_interval_minutes": 15,
+          "screen": [
+            742,
+            373,
+            1178,
+            373,
+            1178,
+            610,
+            742,
+            610
+          ],
+          "hotspots": [
+            {
+              "name": "PLAY_button",
+              "position": [
+                900,
+                1028,
+                633,
+                700
+              ],
+              "action": "VIDEO",
+              "URL": "http://wpc.1EA25.psicdn.net/001EA25/video/nerftourfedconbonn.mp4/playlist.m3u"
+            }
+          ]
+        },
+        {
+          "location_ID": "WIGE",
+          "location_name": "Porsche-Demoshowroom",
+          "owner": "Hashplay",
+          "format": "360",
+          "location_texture": "http://hashplay-183d.kxcdn.com/locations/wige_360.jpg",
+          "location_texture_last_update": "2016-05-19T08:08:37.000Z",
+          "use_video_ad_server": false,
+          "use_image_ad_server": false,
+          "ad_interval_minutes": 15,
+          "screen": [
+            3030,
+            1091,
+            3338,
+            1051,
+            3333,
+            1226,
+            3029,
+            1232
+          ],
+          "hotspots": [
+            {
+              "name": "Carrera S",
+              "position": [
+                2025,
+                2371,
+                1246,
+                1470
+              ],
+              "action": "AUDIO",
+              "URL": "http://hashplay-183d.kxcdn.com/locations/voice_carrera.mp3"
+            },
+            {
+              "name": "Panamera GTS",
+              "position": [
+                2620,
+                3201,
+                1241,
+                1440
+              ],
+              "action": "VIDEO",
+              "URL": "http://wpc.1EA25.psicdn.net/001EA25/video/PORSCHE_panameragts.mp4/playlist.m3u"
+            }
+          ]
+        }
+      ]
+    },
+    "publisher": {
+      "titles_prefix": "http://hashplay-183d.kxcdn.com/titles/",
+      "titles_suffix": "",
+      "stream_server": "rtmp://fso.lax.1EA25.psicdn.net/201EA25/live1/",
+      "stream_servers": [
+        "rtmp://fso.dca.1EA25.psicdn.net/201EA25/live1/",
+        "rtmp://fso.ams.1EA25.psicdn.net/201EA25/live1/",
+        "rtmp://fso.syd.1EA25.psicdn.net/201EA25/live1/",
+        "rtmp://fso.hhp.1EA25.psicdn.net/201EA25/live1/",
+        "rtmp://fso.arn.1EA25.psicdn.net/201EA25/live1/",
+        "rtmp://fso.frf.1EA25.psicdn.net/201EA25/live1/",
+        "rtmp://fso.oxr.1EA25.psicdn.net/201EA25/live1/"
+      ],
+      "stream_key_suffix": "?JW7P9D1K0m2Ha41G&adbe-live-event=demo",
+      "heartbeat_interval_seconds": 15,
+      "max_bitrate_kbps": 3000,
+      "framerate_fps": 30,
+      "h.264": false,
+      "video_source": 0,
+      "hot_key_start_stream_default": "CTRL + B",
+      "hot_key_stop_stream_default": "CTRL + S",
+      "hot_key_inject_ad_default": "CTRL + A",
+      "output_resolution_x": 1920,
+      "output_resolution_y": 1080
+    }
+  }
+}

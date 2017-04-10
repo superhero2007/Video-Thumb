@@ -1,0 +1,8 @@
+{
+  "config": {
+    "media": {
+      "local_upload_target": "/home/vagrant/node-contentapi/data/img/",
+      "cdn_upload_target": "https://some.cdn.com"
+    }
+  }
+}

@@ -1,0 +1,26 @@
+[
+  {
+    "name": "CENTRAL",
+    "parent": "null",
+    "children": [
+      {
+        "name": "NERF",
+        "parent": "CENTRAL",
+        "children": [
+          {
+            "name": "ONC",
+            "parent": "NERF"
+          }
+        ]
+      },
+      {
+        "name": "STICH",
+        "parent": "CENTRAL"
+      },
+      {
+        "name": "6b921b41-9ef2-482b-8acb-6904c26f508f",
+        "parent": "CENTRAL"
+      }
+    ]
+  }
+]

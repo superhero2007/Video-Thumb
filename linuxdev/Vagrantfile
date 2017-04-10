@@ -1,0 +1,114 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
+VAGRANTFILE_API_VERSION = "2"
+
+vm_name = "hashplay-dev"
+vm_mem = 2048
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+
+  # Every Vagrant virtual environment requires a box to build off of.
+  config.vm.box = "bento/centos-7.2"
+  # This may be necessary due to a Vagrant bug on key permissions: https://github.com/mitchellh/vagrant/issues/7610
+  # config.ssh.insert_key = false
+  config.vm.box_check_update = false
+  config.vm.hostname = vm_name
+
+  config.vm.network "forwarded_port", guest: 4434, host: 4435
+
+  # Create a private network, which allows host-only access to the machine
+  # using a specific IP.
+  # config.vm.network "private_network", ip: "192.168.33.10"
+
+  # Create a public network, which generally matched to bridged network.
+  # Bridged networks make the machine appear as another physical device on
+  # your network.
+  # config.vm.network "public_network"
+
+  # If true, then any SSH connections made will enable agent forwarding.
+  # Default value: false
+  # config.ssh.forward_agent = true
+
+  # config.vm.synced_folder "../data", "/vagrant_data"
+  config.vm.synced_folder "../../node-contentapi", "/devel/node-hashplay-contentapi"
+  config.vm.synced_folder "../../data-democontent", "/devel/data-hashplay-democontent"
+
+  # Provider-specific configuration so you can fine-tune various
+  # backing providers for Vagrant. These expose provider-specific options.
+  # Example for VirtualBox:
+  #
+  config.vm.provider "virtualbox" do |vb|
+    # Don't boot with headless mode
+    #vb.gui = true
+  
+    # Use VBoxManage to customize the VM. For example to change memory:
+    vb.customize ["modifyvm", :id, "--memory", vm_mem]
+    # Possibly required for older versions of VirtualBox: https://github.com/chef/bento/issues/688
+    # vb.customize ["modifyvm", :id, "--cableconnected1", "on"]
+    vb.name = vm_name
+  end
+
+  config.vm.provision "shell", inline: <<-SHELL
+    sudo yum -y install deltarpm
+    sudo yum -y -d 0 -e 0 update
+    sudo yum -y install nano  tree top rsync curl wget
+  SHELL
+
+  # node.js Provisioning
+  config.vm.provision "shell", inline: <<-SHELL
+    echo "Getting hp_sync.sh in place"
+    [ ! -e /home/vagrant/hp_sync.sh ] && cp /vagrant/hp_sync.sh /home/vagrant/
+    chmod +x /home/vagrant/hp_sync.sh
+    echo "Insuring node.js is installed"
+    [ -h /usr/bin/node -a -h /usr/bin/npm ] && exit 0
+    [ ! -e /tmp/node.tar.xz ] && curl -L https://nodejs.org/dist/v4.3.1/node-v4.3.1-linux-x64.tar.xz > /tmp/node.tar.xz
+    [ -e /tmp/node.tar.xz ] && tar xvf /tmp/node.tar.xz
+    [ -d /home/vagrant/node-v4.3.1-linux-x64 -a ! -d /opt/node-v4.3.1-linux-x64 ] && sudo mv /home/vagrant/node-v4.3.1-linux-x64 /opt/
+    sudo ln -sf /opt/node-v4.3.1-linux-x64/bin/node /usr/bin/node
+    sudo ln -sf /opt/node-v4.3.1-linux-x64/bin/npm /usr/bin/npm
+    [ -e /tmp/node.tar.xz ] && rm /tmp/node.tar.xz
+  SHELL
+
+  # MongDB Provisioning
+  config.vm.provision "shell", inline: <<-SHELL
+    curl -sL https://raw.github.com/gabrielelana/mongodb-shell-extensions/master/released/mongorc.js > /vagrant/.mongorc.js
+    [ ! -d /data/db ] && sudo mkdir -p /data/db
+    echo "Creating mongodb-org.repo file"
+    [ ! -e  /etc/yum.repos.d/mongodb-org.repo ] && sudo cp /vagrant/mongodb-org.repo /etc/yum.repos.d/
+    sudo yum -y install mongodb-org nodejs-mongo
+    sudo chkconfig mongod on
+    sudo service mongod start
+    [ ! -e /etc/security/limit.d/19-vagrant.conf ] && sudo echo "vagrant          soft    nproc     32000" > /tmp/19-vagrant.conf
+    [ -e /tmp/19-vagrant.conf ] && sudo mv /tmp/19-vagrant.conf /etc/security/limits.d/
+  SHELL
+
+  # Docker Provisioning
+#  config.vm.provision "shell", inline: <<-SHELL
+#    sudo groupadd docker
+#    [ ! -d /etc/yum.repos.d/docker-repo ] && sudo cp /vagrant/docker.repo /etc/yum.repos.d/
+#    sudo yum install -y docker-engine
+#    sudo systemctl enable docker.service
+#    sudo systemctl start  docker.service
+#    sudo usermod -aG docker vagrant
+#    [ ! -e /usr/bin/docker-compose ] && curl -L https://github.com/docker/compose/releases/download/1.6.0/docker-compose-`uname -s`-`uname -m` > /tmp/docker-compose
+#    [ -e /tmp/docker-compose ] && sudo mv /tmp/docker-compose /usr/bin/docker-compose
+#    [ -e /usr/bin/docker-compose ] && sudo chmod +x /usr/bin/docker-compose
+#    [ ! -d influxdata ] && mkdir influxdata
+#    [ -e /vagrant/docker-compose.yml ] && ln -sf /vagrant/docker-compose.yml influxdata/
+#  SHELL
+  
+# Dynamo DB provisioning
+#  config.vm.provision "shell", inline: <<-SHELL
+#    sudy yum -y install java
+#    wget http://dynamodb-local.s3-website-us-west-2.amazonaws.com/dynamodb_local_latest.tar.gz
+#    sudo tar xvf dynamodb_local_latest.tar.gz
+#    sudo mkdir /opt/DynamoDB
+#    sudo mv DynamoDBLocal.jar DynamoDBLocal_lib /opt/DynamoDB
+#    sudo cp /vagrant/start_dynamodb.sh /opt/DynamoDB
+#    sudo chmod +x /opt/DynamoDB/start_dynamodb.sh
+#    sudo ln -s /opt/DynamoDB/start_dynamodb.sh /usr/bin/dynamodb
+#  SHELL
+
+end

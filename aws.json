@@ -1,0 +1,35 @@
+{
+  "IAM": [{
+    "name": "capi-dev-node",
+    "Access-Key-ID": "AKIAIZYQRFZ773M2SEQQ",
+    "Secret-Access-Key": "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"
+  },{
+    "name": "capi-beta-node",
+    "Access-Key-ID": "AKIAJL3PM34QORIDR3YQ",
+    "Secret-Access-Key": "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"
+  },{
+    "name": "node-dev-local",
+    "Access-Key-ID": "AKIAJEAQFIW746T6AGCQ",
+    "Secret-Access-Key": "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"
+  },{
+    "name": "fastloadlambdauser",
+    "Access-Key-ID": "AKIAJUYIVPHV5O2CHGAA",
+    "Secret-Access-Key": "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"
+  }],
+  "CloudFront": [{
+    "domain": "dl55wxr0an4kz.cloudfront.net",
+    "origin": "hashplay-capi-dev.s3.amazonaws.com",
+    "cnames": [ "cdn-dev.hashplay.net" ]
+  }, {
+    "domain": "dde5gazvpvhmp.cloudfront.net",
+    "origin": "hashplay-filestorage.s3.amazonaws.com",
+    "cnames": []
+  }],
+  "S3": [{
+    "bucket": "hashplay-capi-beta"
+  }, {
+    "bucket": "hashplay-capi-dev"
+  }, {
+    "bucket": "hashplay-filestorage"
+  }]
+}
